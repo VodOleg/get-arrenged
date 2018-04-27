@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Message from './Message/Message';
+import MessageForm from './MessageForm/MessageForm';
 
 class Messanger extends Component {
     constructor(props){
@@ -6,7 +8,7 @@ class Messanger extends Component {
         this.addMessage = this.addMessage.bind(this);
         this.removeMessage = this.removeMessage.bind(this);
 
-        this.database = this.props.database;
+        this.database = this.props.database.ref().child('messages');
         //we are going to setup reac state of our component
         this.state={
           messages:[]
