@@ -1,0 +1,42 @@
+
+
+.messagesWrapper {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  height: 100%;
+}
+
+.messagesHeader {
+  display: flex;
+  flex: 1 1 5%;
+  min-height: 1em;
+  max-height: 2em;
+  font-size: 1.5em;
+  color: rgb(194, 248, 0);
+  font-family: 'Permanent Marker', cursive;
+  text-align: center;
+  align-content: center;
+  margin-top:15px;
+  background-color: rgba(0,0,0,0.5);
+  text-shadow: 3px 3px 10px #000;
+  display: block;
+}
+
+.messagesBody {
+  padding-top: 24px;
+  display: flex;
+  flex: 1 1 85%;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.messagesFooter {
+  display: flex;
+  flex: 1 1 5%;
+  background-color: rgba(0,0,0,0.5);
+  padding-bottom: 10px;
+}
