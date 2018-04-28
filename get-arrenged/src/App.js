@@ -23,7 +23,7 @@ class App extends Component {
             <Table 
                       rows = {[ "morning", "evening", "night"]}
                       cols = {[ "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]}
-                      
+                      database={this.database}
                       />
         </div>
         
