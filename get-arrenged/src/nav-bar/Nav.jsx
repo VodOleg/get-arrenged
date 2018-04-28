@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Clock from './../Clock.js';
 import './Nav.css';
-import {Link, BrowserRouter, Redirect} from 'react-router-dom';
+import {NavLink, BrowserRouter, Redirect} from 'react-router-dom';
 
 class Nav extends Component {
 
@@ -12,14 +12,14 @@ class Nav extends Component {
         <div className="clock">
             <Clock />
         </div>
-        <BrowserRouter>
+        <BrowserRouter forceRefresh={true}>
           <div className="myMenu">
               <div className="row">
                       <div className="col-12">
                         <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                          <Link className="nav-link active" id="v-pills-home-tab" data-toggle="pill" to="/" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</Link>
+                          <NavLink exact className="nav-link" id="v-pills-home-tab" data-toggle="pill" to="/" role="tab" aria-controls="v-pills-home" aria-selected="false" >Home</NavLink>
                           <a className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="" role="tab" aria-controls="v-pills-profile" aria-selected="false">Login/Register</a>
-                          <Link className="nav-link" id="v-pills-messages-tab" data-toggle="pill" to="/App" role="tab" aria-controls="v-pills-messages" aria-selected="false">Create Schedule</Link>
+                          <NavLink exact className="nav-link" id="v-pills-messages-tab" data-toggle="pill" to="/App" role="tab" aria-controls="v-pills-messages" aria-selected="false">Create Schedule</NavLink>
                           <a className="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
                         </div>
                       </div>
@@ -33,7 +33,7 @@ class Nav extends Component {
                       </div>
                     </div>
               </div>
-        </BrowserRouter>
+          </BrowserRouter>
       </div>
     );
     

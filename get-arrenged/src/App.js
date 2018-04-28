@@ -21,7 +21,7 @@ class App extends Component {
         <div className="nav">
           <Nav />
         </div>
-        <container className="page">
+        <div className="page">
             <div className="Table">
                 <Table 
                           rows = {[ "morning", "evening", "night"]}
@@ -31,7 +31,7 @@ class App extends Component {
             </div>
             
             <Messanger database={this.database} />
-        </container>
+        </div>
         
         
       </div>
