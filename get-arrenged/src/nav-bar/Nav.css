@@ -4,12 +4,16 @@
     padding-left:5%;
     padding-top:20%;
     background-color: rgb(39, 39, 39);
-    border:1px solid black;
+    border-right:2px solid whitesmoke;
 }
 
 .clock{
-    position: relative;
     margin-top:-200px;
-    margin-left:-3%;
+    margin-left:-25%;
     color:white;
+}
+
+.myMenu{
+    margin-top:95%;
+    margin-left:-30%;
 }

@@ -31,7 +31,7 @@ class Table extends Component {
             this.setState({
                 cells: snap.val().cells.slice()
             });
-            this.updateCells();
+           this.updateCells();
         })
     }
 
