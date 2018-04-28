@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Message from './Message/Message';
 import MessageForm from './MessageForm/MessageForm';
+import './Messanger.css';
 
 class Messanger extends Component {
     constructor(props){

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import Clock from './Clock.js';
 import Table from './table-component/Table';
 import { DB_CONFIG } from './Config/config';
 import Firebase from 'firebase';
 import 'firebase/database';
 import Messanger from './Messanger/Messanger';
+import Nav from './nav-bar/Nav';
 
 class App extends Component {
   constructor(props){
@@ -17,19 +17,23 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <Clock />
-        <div className="Table">
-            <Table 
-                      rows = {[ "morning", "evening", "night"]}
-                      cols = {[ "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]}
-                      database={this.database}
-                      />
+      <div className="App">
+        <div className="nav">
+          <Nav />
         </div>
+        <container className="page">
+            <div className="Table">
+                <Table 
+                          rows = {[ "morning", "evening", "night"]}
+                          cols = {[ "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]}
+                          database={this.database}
+                          />
+            </div>
+            
+            <Messanger database={this.database} />
+        </container>
         
-        <Messanger database={this.database} />
-
-
+        
       </div>
     );
     

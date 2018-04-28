@@ -1,0 +1,15 @@
+.navigationMenu{
+    height: 100%;
+    position: fixed;
+    padding-left:5%;
+    padding-top:20%;
+    background-color: rgb(39, 39, 39);
+    border:1px solid black;
+}
+
+.clock{
+    position: relative;
+    margin-top:-200px;
+    margin-left:-3%;
+    color:white;
+}

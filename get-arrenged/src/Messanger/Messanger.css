@@ -1,0 +1,35 @@
+
+.messagesWrapper {
+    position:fixed;
+    bottom:0;
+    width:70%;
+  }
+  
+  .messagesHeader {
+    display: flex;
+    flex: 1 1 5%;
+    min-height: 1em;
+    max-height: 2em;
+    font-size: 1.5em;
+    text-align: center;
+    align-content: center;
+    margin-top:15px;
+    text-shadow: 3px 3px 10px #000;
+    display: block;
+  }
+  
+  .messagesBody {
+    padding-top: 24px;
+    display: flex;
+    flex: 1 1 85%;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    overflow: hidden;
+  }
+  
+  .messagesFooter {
+    display: flex;
+    padding-bottom: 10px;
+  }
+  
