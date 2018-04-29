@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import {BrowserRouter, Route ,Switch} from 'react-router-dom';
 import Home from './Home.js';
 import App from './App.js';
+import Login from './Login/Login';
+import CreateAccount from './Login/CreateAccount.js';
+
 
 class Routs extends Component{
 
@@ -9,8 +12,10 @@ class Routs extends Component{
         return (
             <BrowserRouter forceRefresh={true}>
                 <Switch>
-                    <Route path={"/"} exact component={Home} />
+                    <Route path={'/CreateAccount'} exact component={CreateAccount} />
+                    <Route path={"/Login"} exact component={Login} />
                     <Route path={"/App"} exact component={App} />
+                    <Route path={"/"} exact component={Home} />
                 </Switch>
             </BrowserRouter>
         )

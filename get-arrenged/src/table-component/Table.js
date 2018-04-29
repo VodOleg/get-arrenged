@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import './Table.css';
-import './TableCell.js';
 import TableCell from './TableCell.js';
-import './Table.css';
-
 
 class Table extends Component {
     constructor(props){
@@ -34,6 +31,7 @@ class Table extends Component {
            this.updateCells();
         })
     }
+
 
     //routine that calls table cell method to change state
     updateCells(){

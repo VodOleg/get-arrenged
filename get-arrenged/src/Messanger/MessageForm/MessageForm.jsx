@@ -38,10 +38,11 @@ class MessageForm extends Component{
                  onChange={this.handleUserInput}
                  />
                  <button
+                  type="button"
                   className="messageButton"
                   onClick={this.writeMessage}
-                  >
-                    Add Message
+                  onSubmit={this.ttt}
+                  >Send
                   </button>
             </div>
         )
