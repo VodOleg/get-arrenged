@@ -6,20 +6,15 @@ import Routs from './Routs';
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
-import { applyMiddleware, createStore} from 'redux';
-import thunk from 'redux-thunk';
-import reducers from './Reducers/index';
 import { Provider } from 'react-redux';
-
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+import store from './store';
 
 
 ReactDOM.render(
-    <Provider store={createStoreWithMiddleware(reducers)}>
+    <Provider store={store}>
         <Routs />
     </Provider>,
     document.getElementById('root')
 );
-//ReactDOM.render(<Routs />, document.getElementById('root'));
 registerServiceWorker();
 

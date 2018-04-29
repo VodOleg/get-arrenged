@@ -2,12 +2,22 @@ import React, { Component } from 'react';
 import Table from './../table-component/Table';
 import Messanger from './../Messanger/Messanger';
 import {database} from './../Firebase';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {getUser} from './../userLobby/UserActions';
+
+
 class UserLobby extends Component {
   constructor(props){
     super(props);
 
     this.database = database;
   }
+
+  componentWillMount(){
+    this.props.getUser();
+  }
+
 
   render() {
     return (
@@ -21,7 +31,7 @@ class UserLobby extends Component {
                           />
             </div>
             
-            <Messanger database={this.database} />
+            <Messanger database={this.database} user={this.props.user.user} />
         </div>
         
         
@@ -31,4 +41,12 @@ class UserLobby extends Component {
   }
 }
 
-export default UserLobby;
+UserLobby.propTypes = {
+  user: PropTypes.object
+}
+
+const mapStateToProps = state => ({
+  user: state.user
+});  
+
+export default connect(mapStateToProps, {getUser})(UserLobby);

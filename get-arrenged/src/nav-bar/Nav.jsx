@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import Clock from './../Clock.js';
 import './Nav.css';
 import {NavLink, BrowserRouter} from 'react-router-dom';
-import {getUser} from './../userLobby/UserActions';
-import {connect} from 'react-redux';
-import { GET_USER } from '../userLobby/UserActions.js';
+import {getUser, logout} from './../userLobby/UserActions';
+import PropTypes from 'prop-types';
+
 class Nav extends Component {
 //FIX USER STATE, WHEN USER LOGS IN CHANGE THE LOGIN NAVBUTTON TO LOGOUT
   componentWillMount(){
     
   }
   tester(user){
-    console.log(user);
+    if(user.user){
+      alert("Hi " + user.user.email +", 'TESTER' button is for development purposes, however you still can enjoy the interactive alert popup :)" );
+    } else {
+      alert("Hello stranger, 'TESTER' button is for you to click it!" );
+
+    }
   }
-  
+
   render() {
     return (
 
@@ -27,9 +33,14 @@ class Nav extends Component {
                       <div className="col-12">
                         <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                           <NavLink exact className="nav-link" id="v-pills-home-tab" data-toggle="pill" to="/" role="tab" aria-controls="v-pills-home" aria-selected="false" >Home</NavLink>
-                          <NavLink exact className="nav-link" id="v-pills-profile-tab" data-toggle="pill" to="/Login" role="tab" aria-controls="v-pills-profile" aria-selected="false">Login/Register</NavLink>
+                          { !this.props.user.user ? 
+                            (<NavLink exact className="nav-link" id="v-pills-profile-tab" data-toggle="pill" to="/Login" role="tab" aria-controls="v-pills-profile" aria-selected="false">Login/Register</NavLink>)
+                            : 
+                            (<button className={"btn btn-danger"} onClick={() =>{this.props.logout()} }>Log out</button>)
+
+                          }
                           <NavLink exact className="nav-link" id="v-pills-messages-tab" data-toggle="pill" to="/App" role="tab" aria-controls="v-pills-messages" aria-selected="false">Create Schedule</NavLink>
-                          <a className="nav-link" id="v-pills-settings-tab" href="#" data-toggle="pill" role="tab" aria-controls="v-pills-settings" aria-selected="false" onClick={()=>this.tester(getUser())}>TESTER</a>
+                          <a className="nav-link" id="v-pills-settings-tab" href="#" data-toggle="pill" role="tab" aria-controls="v-pills-settings" aria-selected="false" onClick={()=>this.tester(this.props.user)}>TESTER</a>
                         </div>
                       </div>
                       <div className="col-12">
@@ -49,8 +60,12 @@ class Nav extends Component {
   }
 }
 
-function mapStateToProps(state){
-  return {nav : state.user}
+Nav.propTypes = {
+  user : PropTypes.object
 }
 
-export default connect(mapStateToProps)(Nav);
+const mapStateToProps = state => ({
+  user : state.user
+});
+
+export default connect(mapStateToProps, {getUser, logout})(Nav);

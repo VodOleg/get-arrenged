@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './Table.css';
 import TableCell from './TableCell.js';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {getUser} from './../userLobby/UserActions';
 
 class Table extends Component {
     constructor(props){
@@ -30,6 +33,8 @@ class Table extends Component {
             });
            this.updateCells();
         })
+    this.props.getUser();
+        
     }
 
 
@@ -110,5 +115,12 @@ class Table extends Component {
     }
   }
 
+Table.propTypes = {
+    user: PropTypes.object
+}
+
+const mapStateToProps = state => ({
+    user: state.user
+});  
   
-export default Table;
+export default connect(mapStateToProps, {getUser})(Table);

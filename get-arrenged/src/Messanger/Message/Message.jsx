@@ -15,6 +15,13 @@ class Message extends Component{
         this.props.removeMessage(id);
     }
 
+    extractNick(email){
+        let i =0;
+        while(email[i] != '@'){
+            i++;
+        }
+        return email.substring(0,i);
+    }
 
     render(props){
         return(
@@ -23,7 +30,15 @@ class Message extends Component{
                       onClick ={()=> this.handleRemoveMessage(this.messageId)}>
                       &times;
                 </span>
-                <p className="messageContent">{ this.messageContent }</p>
+                <div className="col col-sm-3 userNick">
+                   {this.extractNick(this.props.messageUser)} :
+
+                </div>
+                  <div className="col col-sm-9 messageContent">
+                { this.messageContent }
+
+                </div>
+                
             </div>
         )
     }

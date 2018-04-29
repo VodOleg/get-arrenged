@@ -15,3 +15,11 @@ export function getUser() {
 export function login(email, password){
     return dispatch =>auth.signInWithEmailAndPassword(email,password).then((user)=>console.log(user));
 }
+
+export function logout(){
+  return dispatch => auth.signOut();
+}
+
+export function createAccount(email, password){
+  return dispatch => auth.createUserWithEmailAndPassword(email,password);
+}

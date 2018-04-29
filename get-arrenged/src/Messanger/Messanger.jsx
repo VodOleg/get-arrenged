@@ -25,6 +25,7 @@ class Messanger extends Component {
           previousMessages.push({
             id: snap.key,
             messageContent: snap.val().messageContent,
+            messageUser: snap.val().user
           })
     
           this.setState({
@@ -47,7 +48,8 @@ class Messanger extends Component {
     
       addMessage(message){
         this.database.push().set({
-          messageContent: message
+          messageContent: message,
+          user: this.props.user.email
         });
       }
     
@@ -71,6 +73,7 @@ class Messanger extends Component {
                       return(
                         <Message 
                         messageContent={message.messageContent} 
+                        messageUser = {message.messageUser}
                         messageId={message.id} 
                         key={message.id} 
                         removeMessage = {this.removeMessage} 
