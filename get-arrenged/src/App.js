@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getUser} from './userLobby/UserActions';
 import Home from './Home';
-import SimnpleBox from './Login/SimpleBox';
+import SimpleBox from './Login/SimpleBox';
 
 class App extends Component {
   
@@ -23,7 +23,7 @@ class App extends Component {
           (<UserLobby />) 
           :
           (
-            <SimnpleBox 
+            <SimpleBox 
             title={"Authenticate please"}
             body={"Before getting arranged you must authenticate :)"}
             footer={loginbutton}

@@ -34,3 +34,8 @@
     margin:0px 32px 0px 30px;
 
 }
+
+.loading{
+    display: relative;
+    left:50%;
+}

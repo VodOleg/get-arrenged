@@ -26,7 +26,7 @@ class CreateAccount extends Component{
     submitAccount(event){
         event.preventDefault();
         this.props.createAccount(this.state.email, this.state.password)
-        .then(() => {this.props.history.replace('/');})
+        .then(() => {this.props.history.replace('/App');})
         .catch(err =>{console.log(err)})
         
     }

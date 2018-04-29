@@ -10,7 +10,7 @@ class Routs extends Component{
 
     render(){
         return (
-            <BrowserRouter forceRefresh={true}>
+            <BrowserRouter forceRefresh={false}>
                 <Switch>
                     <Route path={'/CreateAccount'} exact component={CreateAccount} />
                     <Route path={"/Login"} exact component={Login} />

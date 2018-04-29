@@ -4,13 +4,15 @@ import TableCell from './TableCell.js';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getUser} from './../userLobby/UserActions';
+import LoadingSpinner from '../userLobby/LoadingSpinner';
 
 class Table extends Component {
     constructor(props){
         super(props);
         
         this.state={
-            cells : []
+            cells : [],
+            loading: true
         };
         this.state.cells = this.initCells(this.props.cols.length, this.props.rows.length);
         this.handleCell = this.handleCell.bind(this);
@@ -29,10 +31,12 @@ class Table extends Component {
     componentWillMount(){
         this.database.once("value").then((snap)=>{
             this.setState({
-                cells: snap.val().cells.slice()
+                cells: snap.val().cells.slice(),
+                loading: false
             });
            this.updateCells();
-        })
+       
+        });
     this.props.getUser();
         
     }
@@ -109,7 +113,12 @@ class Table extends Component {
       return (
           
         <div className={"table"}> 
-            {this.renderTable(this.props.cols.length,this.props.rows.length)}
+            {this.state.loading ? (
+                <div className="loading">
+                    <LoadingSpinner />
+                </div>
+                ) :
+             this.renderTable(this.props.cols.length,this.props.rows.length)}
         </div>
       );
     }

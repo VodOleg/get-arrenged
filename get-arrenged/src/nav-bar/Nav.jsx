@@ -27,7 +27,6 @@ class Nav extends Component {
         <div className="clock">
             <Clock />
         </div>
-        <BrowserRouter forceRefresh={true}>
           <div className="myMenu">
               <div className="row">
                       <div className="col-12">
@@ -53,7 +52,6 @@ class Nav extends Component {
                       </div>
                     </div>
               </div>
-          </BrowserRouter>
       </div>
     );
     
