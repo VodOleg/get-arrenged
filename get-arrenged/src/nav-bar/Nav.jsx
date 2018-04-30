@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import Clock from './../Clock.js';
 import './Nav.css';
 import {NavLink, BrowserRouter} from 'react-router-dom';
-import {getUser, logout} from './../userLobby/UserActions';
+import {getUser, logout, deleteAccount} from './../userLobby/UserActions';
 import PropTypes from 'prop-types';
 
 class Nav extends Component {
@@ -32,14 +32,16 @@ class Nav extends Component {
                       <div className="col-12">
                         <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                           <NavLink exact className="nav-link" id="v-pills-home-tab" data-toggle="pill" to="/" role="tab" aria-controls="v-pills-home" aria-selected="false" >Home</NavLink>
+                          <NavLink exact className="nav-link" id="v-pills-messages-tab" data-toggle="pill" to="/App" role="tab" aria-controls="v-pills-messages" aria-selected="false">Create Schedule</NavLink>
+                          <a className="nav-link" id="v-pills-settings-tab" href="#" data-toggle="pill" role="tab" aria-controls="v-pills-settings" aria-selected="false" onClick={()=>this.tester(this.props.user)}>TESTER</a>
                           { !this.props.user.user ? 
                             (<NavLink exact className="nav-link" id="v-pills-profile-tab" data-toggle="pill" to="/Login" role="tab" aria-controls="v-pills-profile" aria-selected="false">Login/Register</NavLink>)
                             : 
-                            (<button className={"btn btn-danger"} onClick={() =>{this.props.logout()} }>Log out</button>)
-
+                            (<button className={"btn btn-warning"} onClick={() =>{this.props.logout()} }>Log out</button>)
                           }
-                          <NavLink exact className="nav-link" id="v-pills-messages-tab" data-toggle="pill" to="/App" role="tab" aria-controls="v-pills-messages" aria-selected="false">Create Schedule</NavLink>
-                          <a className="nav-link" id="v-pills-settings-tab" href="#" data-toggle="pill" role="tab" aria-controls="v-pills-settings" aria-selected="false" onClick={()=>this.tester(this.props.user)}>TESTER</a>
+                          {  (this.props.user.user) ?
+                              (<button className={"btn btn-danger"} onClick={() =>{this.props.deleteAccount()} }>Delete Account</button>) : ( <span></span> )
+                            }
                         </div>
                       </div>
                       <div className="col-12">
@@ -66,4 +68,4 @@ const mapStateToProps = state => ({
   user : state.user
 });
 
-export default connect(mapStateToProps, {getUser, logout})(Nav);
+export default connect(mapStateToProps, {getUser, logout, deleteAccount})(Nav);

@@ -7,10 +7,10 @@ function isVowel(char){
 const InputField = (props) => {
     return(
         <div className="form-group row">
-            <label htmlFor={props.id} className="col-sm-2 col-form-label">
+            <div className="col-sm-10">
+            <label htmlFor={props.id} className="col-sm-6 col-form-label">
                 {props.label}
             </label>
-            <div className="col-sm-10">
                 <input
                  type={props.type}
                  onChange={props.inputAction}

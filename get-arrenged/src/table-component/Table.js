@@ -27,6 +27,7 @@ class Table extends Component {
         return cellsArray;
     }
 
+    
     //on component init, bring data from db and update table
     componentWillMount(){
         this.database.once("value").then((snap)=>{

@@ -28,7 +28,12 @@ class Login extends Component {
 
     submitLogin(event){
         event.preventDefault();
-        this.props.login(this.state.email, this.state.password).catch(err => {console.log(err)});
+        this.props.login(this.state.email, this.state.password)
+        .then(() => {this.props.history.replace('/App')})
+        .catch((err) =>{
+            if (err.code)
+                alert(err.code);
+            });
     }
 
     renderBody(){

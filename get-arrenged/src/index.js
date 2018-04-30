@@ -5,7 +5,6 @@ import Routs from './Routs';
 // eslint-disable-next-line
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
-import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import store from './store';
 
@@ -16,5 +15,4 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
-registerServiceWorker();
 

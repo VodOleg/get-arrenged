@@ -7,15 +7,13 @@ import {createAccount} from './../userLobby/UserActions';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getUser} from './../userLobby/UserActions';
+import {database} from './../Firebase';
 
 class CreateAccount extends Component{
-
-    componentWillMount(){
-        this.props.getUser();
-      }
-
+    
     constructor(props){
         super(props);
+        this.database = database;
         this.state = {
             email : '',
             password : '',
@@ -23,12 +21,43 @@ class CreateAccount extends Component{
         }
     }
 
+    componentWillMount(){
+        this.props.getUser();
+      }
+
+    updateDatabase(){
+        var self = this;
+        setTimeout(function(){
+            let key = "";
+            key= self.props.user.user.uid;
+            let newUser = { };
+            newUser[key]={
+                table: '',
+                conds: []
+            }
+           self.database.ref().child('users').update(newUser);
+        }, 2000);
+        setTimeout(function(){
+            self.props.history.replace('/App');
+        },2500);
+    }
+
     submitAccount(event){
         event.preventDefault();
-        this.props.createAccount(this.state.email, this.state.password)
-        .then(() => {this.props.history.replace('/App');})
-        .catch(err =>{console.log(err)})
-        
+        if(this.state.password === this.state.confirmPassword){
+            this.props.createAccount(this.state.email, this.state.password)
+            .then(()=>{
+                //this.props.history.replace('/App');
+            })
+            .catch((err) =>{
+                if (err.code)
+                alert(err.code);
+            });
+            
+            this.updateDatabase();
+        } else {
+            alert("password does not match Confirm password");
+        }
     }
 
     renderBody(){
@@ -63,4 +92,4 @@ CreateAccount.propTypes = {
 const mapStateToProps = state => ({
     user: state.user
 });  
-export default connect (null, {createAccount, getUser})(CreateAccount);
+export default connect (mapStateToProps, {createAccount, getUser})(CreateAccount);

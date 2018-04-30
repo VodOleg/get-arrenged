@@ -23,3 +23,7 @@ export function logout(){
 export function createAccount(email, password){
   return dispatch => auth.createUserWithEmailAndPassword(email,password);
 }
+
+export function deleteAccount(){
+  return dispatch => auth.currentUser.delete().catch((err) => alert(err.message));
+}
