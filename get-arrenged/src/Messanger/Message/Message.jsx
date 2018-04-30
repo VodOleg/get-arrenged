@@ -17,7 +17,7 @@ class Message extends Component{
 
     extractNick(email){
         let i =0;
-        while(email[i] != '@'){
+        while(email[i] !== '@'){
             i++;
         }
         return email.substring(0,i);

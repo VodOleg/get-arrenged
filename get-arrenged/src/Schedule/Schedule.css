@@ -1,0 +1,14 @@
+
+.TableRow{
+    margin-top:27px;
+}
+
+.rowHead{
+    font-weight: 200;
+    margin-left:5px;
+}
+
+.colHead{
+    margin:0px 50px 0px 30px;
+
+}

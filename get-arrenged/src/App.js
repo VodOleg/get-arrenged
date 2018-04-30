@@ -5,7 +5,6 @@ import UserLobby from './userLobby/UserLobby';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getUser} from './userLobby/UserActions';
-import Home from './Home';
 import SimpleBox from './Login/SimpleBox';
 import {Link} from 'react-router-dom';
 

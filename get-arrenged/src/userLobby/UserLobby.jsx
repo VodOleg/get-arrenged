@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Table from './../table-component/Table';
 import Messanger from './../Messanger/Messanger';
 import {database} from './../Firebase';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getUser} from './../userLobby/UserActions';
+import Schedule from '../Schedule/Schedule';
 
 
 class UserLobby extends Component {
@@ -21,6 +21,7 @@ class UserLobby extends Component {
   }
 
   createSchedule(){
+    console.log(this.props.user.user.uid);
   }
 
   render() {
@@ -28,6 +29,10 @@ class UserLobby extends Component {
       <div className="UserLobby">
         <div className="page">
             <div className="Table">
+              <Schedule 
+                  rows = {[ "morning", "evening", "night"]}
+                  cols = {[ "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]}
+              />
                 {/* <Table 
                           rows = {[ "morning", "evening", "night"]}
                           cols = {[ "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]}
