@@ -5,7 +5,7 @@ export default class SimpleBox extends Component{
     render() {
         const { title, body, footer} = this.props;
         return(
-            <div className="container" style={{"minWidth":"70%"}}>
+            <div className="container page" style={{"minWidth":"70%"}}>
                 <div className="d-flex justify-content-center align-self-center">
                     <div className="card col-sm-6" style={{"marginTop":"15%"}}>
                         <div className="card-block" >

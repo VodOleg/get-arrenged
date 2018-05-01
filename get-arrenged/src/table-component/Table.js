@@ -36,9 +36,8 @@ class Table extends Component {
             counter: this.state.counter +1
         });
         if(this.state.counter===1){
-            this.database = database.ref().child('/users/'+ prop.ownerID +'/members/' + prop.myID +'/cells');
+            this.database = database.ref().child('/users/'+ prop.ownerID +'/members/' + prop.myID);
             this.database.once("value").then((snap)=>{
-                    console.log(snap.val());
                         this.setState({
                             cells: snap.val().cells.slice(),
                             loading: false
@@ -48,7 +47,10 @@ class Table extends Component {
                     }).catch((err)=>{
                         console.log(err);
                         console.log("caught error, updating...");
-                        this.database.update({cells:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]});
+                        this.database.update({
+                            cells:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                            nickname: prop.nickname
+                        });
                         this.setState({
                             cells:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                             loading: false

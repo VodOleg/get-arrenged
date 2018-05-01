@@ -32,8 +32,7 @@ class CreateAccount extends Component{
             key= self.props.user.user.uid;
             let newUser = { };
             newUser[key]={
-                table: '',
-                conds: []
+                members: ''
             }
            self.database.ref().child('users').update(newUser);
         }, 2000);
@@ -48,13 +47,14 @@ class CreateAccount extends Component{
             this.props.createAccount(this.state.email, this.state.password)
             .then(()=>{
                 //this.props.history.replace('/App');
+                this.updateDatabase();
             })
             .catch((err) =>{
                 if (err.code)
                 alert(err.code);
             });
             
-            this.updateDatabase();
+            
         } else {
             alert("password does not match Confirm password");
         }

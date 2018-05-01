@@ -8,12 +8,24 @@
 }
 
 .clock{
-    margin-top:-200px;
-    margin-left:-25%;
+    margin-top:35px;
+    margin-left:10px;
+    margin-bottom:45%;
+    padding-bottom:5%;
+    border-bottom:1px dashed white;
     color:white;
 }
 
 .myMenu{
     margin-top:95%;
     margin-left:-30%;
+}
+
+.ant-menu-item-active{
+    cursor: default !important;
+    
+}
+.ant-menu-item{
+    cursor: default !important;
+    
 }

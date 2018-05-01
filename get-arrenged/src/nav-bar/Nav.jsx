@@ -1,60 +1,69 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Clock from './../Clock.js';
-import './Nav.css';
 import { NavLink } from 'react-router-dom';
 import {getUser, logout, deleteAccount} from './../userLobby/UserActions';
 import PropTypes from 'prop-types';
+import { Layout, Menu, Breadcrumb, Icon, Button } from 'antd';
+import './Nav.css';
+const { Sider } = Layout;
+
 
 class Nav extends Component {
-//FIX USER STATE, WHEN USER LOGS IN CHANGE THE LOGIN NAVBUTTON TO LOGOUT
-  componentWillMount(){
-    
-  }
-  tester(user){
-    if(user.user){
-      alert("Hi " + user.user.email +", 'TESTER' button is for development purposes, however you still can enjoy the interactive alert popup :)" );
-    } else {
-      alert("Hello stranger, 'TESTER' button is for you to click it!" );
-
+  constructor(props){
+    super(props);
+    this.state={
+      collapsed: false
     }
   }
 
-  render() {
-    return (
+  onCollapse = (collapsed) => {
+    this.setState({
+      collapsed
+    })
+  }
 
-      <div className="navigationMenu">
+
+  render() {
+    let styles={cursor:"default", textDecoration:"none", minWidth:"100px",height:"32px", border:"1px solid transperent",textAlign:"center", borderRadius:"4px", background:"white", padding:"6px 15px"};
+    return (
+       
+        <Sider
+          style={{flex:"none", position:"absolute", height:"100%", cursor:"default !important",textDecoration:"none"}}
+          collapsible
+          collapsed={this.state.collapsed}
+          onCollapse={this.onCollapse}
+        >
+              <div className="logo antMenu" />
         <div className="clock">
-            <Clock />
+           <Clock />
         </div>
-          <div className="myMenu">
-              <div className="row">
-                      <div className="col-12">
-                        <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                          <NavLink exact className="nav-link" id="v-pills-home-tab" data-toggle="pill" to="/" role="tab" aria-controls="v-pills-home" aria-selected="false" >Home</NavLink>
-                          <NavLink exact className="nav-link" id="v-pills-messages-tab" data-toggle="pill" to="/App" role="tab" aria-controls="v-pills-messages" aria-selected="false">Create Schedule</NavLink>
-                          
-                          { !this.props.user.user ? 
-                            (<NavLink exact className="nav-link" id="v-pills-profile-tab" data-toggle="pill" to="/Login" role="tab" aria-controls="v-pills-profile" aria-selected="false">Login/Register</NavLink>)
-                            : 
-                            (<button className={"btn btn-warning"} onClick={() =>{this.props.logout()} }>Log out</button>)
-                          }
-                          {  (this.props.user.user) ?
-                              (<button className={"btn btn-danger"} onClick={() =>{this.props.deleteAccount()} }>Delete Account</button>) : ( <span></span> )
-                            }
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <div className="tab-content" id="v-pills-tabContent">
-                          <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...</div>
-                          <div className="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
-                          <div className="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
-                          <div className="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
-                        </div>
-                      </div>
-                    </div>
-              </div>
-      </div>
+              <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                <Menu.Item key="1">
+                  <Icon type="home" />
+                  <span><NavLink style={styles} to="/">Home</NavLink></span>
+                </Menu.Item>
+                <Menu.Item key="2">
+                  <Icon type="laptop" />
+                  <span><NavLink style={styles} to="/App">Go to App</NavLink></span>
+                </Menu.Item>
+                <Menu.Item key="3">
+                  <Icon type="lock" />
+                  <span>
+                  { !this.props.user.user ? (<NavLink style={styles} to="/Login">Login</NavLink>) : (<Button type="dashed" style={{cursor:"default", textDecoration:"none"}} onClick={() =>{this.props.logout()} }>Log out</Button>) }
+                  </span>
+                </Menu.Item>
+                <Menu.Item key="4">
+                { this.props.user.user ? (<Icon type="warning" />) : (<span></span>)}
+                  <span>
+                  { this.props.user.user ? (<Button type="danger" style={{cursor:"default", textDecoration:"none"}}  onClick={() =>{this.props.deleteAccount()} }>Delete Account</Button>) : (<span></span>) }
+                  </span>
+                </Menu.Item>
+              </Menu>
+            </Sider>
+      
+
+
     );
     
   }

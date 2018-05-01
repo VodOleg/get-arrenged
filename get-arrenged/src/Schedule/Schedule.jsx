@@ -5,26 +5,80 @@ import PropTypes from 'prop-types';
 import {getUser} from './../userLobby/UserActions';
 import LoadingSpinner from '../userLobby/LoadingSpinner';
 import {Menu, Dropdown} from 'antd';
-import {workers} from './workers.js';
+//import {this.state.members} from './this.state.members.js';
 import './Schedule.css';
-
+import {database} from './../Firebase';
 
 
 class Schedule extends Component {
     constructor(props){
         super(props);
-        
+        this.database=database;
+        this.datab=database;
         this.state={
             cells : [" "," "," "," ",
             " "," "," "," ",
             " "," "," "," ",
             " "," "," "," ",
             " "," "," "," "," "],
-            loading: false
+            loading: true,
+            owner: true,
+            counter: 0,
+            members : {}
         };
     }
 
 
+    componentWillReceiveProps(prop){
+        this.setState({
+            counter: this.state.counter +1
+        });
+        var members = {};
+        if(this.state.counter===1){
+            this.database = database.ref().child('/users/'+ prop.ownerID +'/members');
+            this.database.once("value").then((snap)=>{
+                    for (let worker in snap.val()){
+                        members[snap.val()[worker].nickname]=snap.val()[worker].cells.slice();
+                    }
+                        this.setState({
+                            members : members,
+                            loading: false,
+                            owner: prop.ownerID===this.props.user.user.uid
+                        });
+                        this.datab = database.ref().child('/users/'+prop.ownerID+'/members')
+                        .once("value").then((snap)=>{
+                            if (snap.val()){
+                                this.setState({
+                                    cells: snap.val()["newCells"].slice(),
+                                    loading: false
+                                });
+                            } else {
+                                let newOwner ={};
+                                newOwner[prop.ownerID] = {"schedule": [" "," "," "," ",
+                                " "," "," "," ",
+                                " "," "," "," ",
+                                " "," "," "," ",
+                                " "," "," "," "," "]};
+                                this.datab = database.ref().child('/users'+prop.ownerID+"/members").update({
+                                    newOwner
+                                });
+                            }
+                            })
+                    }).catch((err)=>{
+                        console.log(err);
+                    });
+        }
+    }
+
+    extractNick(email){
+        let kj = "";
+        let i =0;
+        while(email[i] !== '@' && i<email.length){
+            i++;
+        }
+        kj = email.substring(0,i);
+        return email.substring(0,i);
+    }
     
 
     componentWillMount(){
@@ -44,43 +98,48 @@ class Schedule extends Component {
     }
 
     workerIsAvailble(worker, day){
-        if(workers[worker]===undefined) {return true;}
-        if(day===0) {return workers[worker][day]};
-
+        if(this.state.members[worker]===undefined) {return true;}
+        if(day===0) {return this.state.members[worker][day]};
+        
         let previousShift = ((day-7)>=0) ? (day-7) : (day+13);
-        let isAvailable =  ((workers[worker][day]) && (this.state.cells[previousShift] !== worker));
+        let isAvailable =  (!(this.state.members[worker][day]) && (this.state.cells[previousShift] !== this.extractNick(worker)));
+        console.log("worker is : "+worker+" checking for day "+day+"returning "+ !isAvailable);
         return isAvailable;
     }
 
     renderUsers(id){
        // style={{ color: (!this.workerIsAvailble(worker,id)) ? 'red' : ' black'}}
-        var retWorkers = [];
-        for (let worker in workers){
-            retWorkers.push(
+        var retMembers = [];
+        for (let worker in this.state.members){
+            retMembers.push(
                 <Menu.Item key={worker}>
                       {
-                          <a className={!this.workerIsAvailble(worker,id) ? 'notAvailble' : null}   onClick={() => this.changeState(id, worker)}>{worker}</a>
+                          <a className={!this.workerIsAvailble(worker,id) ? 'notAvailble' : null}   onClick={() => this.changeState(id, worker)}>{this.extractNick(worker)}</a>
                       }
                         
                       
                 </Menu.Item>
             )
         }
-        retWorkers.push(
+        retMembers.push(
             <Menu.Item key={id*id}>
                     {
                         <a onClick={() => this.changeState(id, " ")}>No one</a>
                     }
             </Menu.Item>
         );
-        return retWorkers;
+        return retMembers;
     }
+
+
     changeState(id, worker){
         let newCells = this.state.cells.slice();
-        newCells[id]= worker;
+        newCells[id]= this.extractNick(worker);
         this.setState({
             cells: newCells
-        })
+        });
+        this.datab=database.ref().child('/users/'+this.props.ownerID+'/schedule').update({newCells});
+
     };
 
     //function to render a single Row of cells
@@ -99,7 +158,7 @@ class Schedule extends Component {
             row.push(
                 <Dropdown overlay={menu} key={unique}>
                     <button className={this.workerIsAvailble(this.state.cells[unique], unique) ? classes : classes+" notAvailble"} style={{margin:"1px", minWidth:"100px", minHeight:"32px"}}>
-                        {this.state.cells[unique]}
+                        {this.extractNick(this.state.cells[unique])}
                     </button>
                 </Dropdown>
             );
@@ -132,7 +191,7 @@ class Schedule extends Component {
       return (
           
         <div className={"Schedule"}> 
-            {/* <button onClick={()=>{console.log(this.state.cells)}} >test</button> */}
+            <button onClick={() => {console.log(this.state.cells)}}> test </button>
             {this.state.loading ? (
                 <div className="loading">
                     <LoadingSpinner />

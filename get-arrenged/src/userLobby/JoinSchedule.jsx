@@ -17,7 +17,8 @@ class JoinSchedule extends Component {
             scheduleOwner: false,
             ownerID: '',
             myID: '',
-            counter: 0
+            counter: 0,
+            nickname: ''
         }
         this.database = database;
     }
@@ -28,7 +29,8 @@ class JoinSchedule extends Component {
         this.setState({
             ownerID: this.props.location.state.sharedID,
             myID: newProps.user.user.uid,
-            counter : this.state.counter+1
+            counter : this.state.counter+1,
+            nickname : newProps.user.user.email
         });
         if (this.state.counter===1){
             let key = "";
@@ -67,7 +69,8 @@ class JoinSchedule extends Component {
                         <Schedule
                             rows = {[ "morning", "evening", "night"]}
                             cols = {[ "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]}
-
+                            ownerID = {this.state.ownerID}
+                            myID = {this.state.myID}
                         />
                     </div>
                 </div>
@@ -81,6 +84,7 @@ class JoinSchedule extends Component {
                             cols = {[ "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]}
                             ownerID = {this.state.ownerID}
                             myID = {this.state.myID}
+                            nickname = {this.state.nickname}
                         />
                     </div>
                 </div>

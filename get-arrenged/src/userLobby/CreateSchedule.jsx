@@ -21,9 +21,10 @@ constructor(props){
   componentWillMount(){
     this.props.getUser();
   }
-  componentWillReceiveProps(props){
+  componentWillReceiveProps(newprops){
+    if(!newprops.user.user){this.props.history.replace('/Login'); return;}
       this.setState({
-          sharedID : props.user.user.uid
+          sharedID : newprops.user.user.uid
       });
   }
 
