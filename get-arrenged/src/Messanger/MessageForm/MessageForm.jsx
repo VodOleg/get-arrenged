@@ -41,7 +41,6 @@ class MessageForm extends Component{
                   type="button"
                   className="messageButton"
                   onClick={this.writeMessage}
-                  onSubmit={this.ttt}
                   >Send
                   </button>
             </div>

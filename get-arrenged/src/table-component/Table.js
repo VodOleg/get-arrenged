@@ -5,19 +5,23 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getUser} from './../userLobby/UserActions';
 import LoadingSpinner from '../userLobby/LoadingSpinner';
-
+import {database} from '../Firebase';
 class Table extends Component {
     constructor(props){
         super(props);
         
         this.state={
             cells : [],
-            loading: true
+            loading: true,
+            counter : 0
         };
         this.state.cells = this.initCells(this.props.cols.length, this.props.rows.length);
         this.handleCell = this.handleCell.bind(this);
-        this.database = this.props.database.ref().child('Table');
+        this.database = database;
+        
+       // this.database = database.ref().child('/users/'+ this.props.sharedID +'/members/' + this.props.myID);
     }
+
 
     initCells(cols,rows){
         var cellsArray = [];
@@ -27,20 +31,45 @@ class Table extends Component {
         return cellsArray;
     }
 
+    componentWillReceiveProps(prop){
+        this.setState({
+            counter: this.state.counter +1
+        });
+        if(this.state.counter===1){
+            this.database = database.ref().child('/users/'+ prop.ownerID +'/members/' + prop.myID +'/cells');
+            this.database.once("value").then((snap)=>{
+                    console.log(snap.val());
+                        this.setState({
+                            cells: snap.val().cells.slice(),
+                            loading: false
+                        });
+                       this.updateCells();
+                   
+                    }).catch((err)=>{
+                        console.log(err);
+                        console.log("caught error, updating...");
+                        this.database.update({cells:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]});
+                        this.setState({
+                            cells:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                            loading: false
+                        });
+                    });
+        }
+    }
     
     //on component init, bring data from db and update table
-    componentWillMount(){
-        this.database.once("value").then((snap)=>{
-            this.setState({
-                cells: snap.val().cells.slice(),
-                loading: false
-            });
-           this.updateCells();
+    // componentWillMount(){
+    //     this.database.once("value").then((snap)=>{
+    //         this.setState({
+    //             cells: snap.val().cells.slice(),
+    //             loading: false
+    //         });
+    //        this.updateCells();
        
-        });
-    this.props.getUser();
+    //     });
+    // this.props.getUser();
         
-    }
+    // }
 
 
     //routine that calls table cell method to change state
@@ -65,7 +94,7 @@ class Table extends Component {
         let unique = 100;
         for (let i =0 ; i<cols ; i++){
              unique += i;
-             days.push(<span className={"colHead"} key={unique}> {this.props.cols[i]} </span>);
+             days.push(<span className={"colHeadTable"} key={unique}> {this.props.cols[i]} </span>);
             
         }
         return days;

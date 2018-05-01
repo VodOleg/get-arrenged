@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import './Schedule.css';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getUser} from './../userLobby/UserActions';
 import LoadingSpinner from '../userLobby/LoadingSpinner';
 import {Menu, Dropdown} from 'antd';
 import {workers} from './workers.js';
+import './Schedule.css';
 
 
 
@@ -22,8 +22,6 @@ class Schedule extends Component {
             " "," "," "," "," "],
             loading: false
         };
-        //this.state.cells = this.initCells(this.props.cols.length, this.props.rows.length);
-       // this.handleCell = this.handleCell.bind(this);
     }
 
 
@@ -45,19 +43,36 @@ class Schedule extends Component {
         return days;
     }
 
+    workerIsAvailble(worker, day){
+        if(workers[worker]===undefined) {return true;}
+        if(day===0) {return workers[worker][day]};
+
+        let previousShift = ((day-7)>=0) ? (day-7) : (day+13);
+        let isAvailable =  ((workers[worker][day]) && (this.state.cells[previousShift] !== worker));
+        return isAvailable;
+    }
+
     renderUsers(id){
+       // style={{ color: (!this.workerIsAvailble(worker,id)) ? 'red' : ' black'}}
         var retWorkers = [];
         for (let worker in workers){
             retWorkers.push(
                 <Menu.Item key={worker}>
                       {
-                          <a style={{ color: (!workers[worker][id]) ? 'red' : ' black'}} onClick={() => this.changeState(id, worker)}>{worker}</a>
+                          <a className={!this.workerIsAvailble(worker,id) ? 'notAvailble' : null}   onClick={() => this.changeState(id, worker)}>{worker}</a>
                       }
                         
                       
                 </Menu.Item>
             )
         }
+        retWorkers.push(
+            <Menu.Item key={id*id}>
+                    {
+                        <a onClick={() => this.changeState(id, " ")}>No one</a>
+                    }
+            </Menu.Item>
+        );
         return retWorkers;
     }
     changeState(id, worker){
@@ -72,6 +87,8 @@ class Schedule extends Component {
     renderRow(cols,line){
         var row = [];
         let unique = 0;
+        let classes = "ant-dropdown-link btn btn-sm schCell";
+       // 
         for (let i=0; i<cols;i++){
             unique = (line*cols + i);
             let menu=(
@@ -81,7 +98,7 @@ class Schedule extends Component {
             );
             row.push(
                 <Dropdown overlay={menu} key={unique}>
-                    <button className="ant-dropdown-link btn btn-sm" style={{margin:"1px", minWidth:"100px", minHeight:"32px"}}>
+                    <button className={this.workerIsAvailble(this.state.cells[unique], unique) ? classes : classes+" notAvailble"} style={{margin:"1px", minWidth:"100px", minHeight:"32px"}}>
                         {this.state.cells[unique]}
                     </button>
                 </Dropdown>
@@ -115,7 +132,7 @@ class Schedule extends Component {
       return (
           
         <div className={"Schedule"}> 
-            
+            {/* <button onClick={()=>{console.log(this.state.cells)}} >test</button> */}
             {this.state.loading ? (
                 <div className="loading">
                     <LoadingSpinner />

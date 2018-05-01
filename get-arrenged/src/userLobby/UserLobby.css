@@ -1,0 +1,46 @@
+.myAppButton{
+  cursor: default;
+  font: bold 11px Arial;
+  text-decoration: none;
+  background-color: rgb(42, 52, 190);
+  color: white;
+  padding: 10px 10px 10px 10px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+
+.myAppButton:hover{
+    text-decoration: none;
+    background-color: rgb(31, 190, 190);
+    color: rgb(0, 0, 0);
+}
+
+.tableContainer{
+    margin-top:10%;
+}
+
+.scheduleContainer{
+    margin-top:10%;
+}
+
+.linkContainer{
+    display: block;
+}
+.messageInput{
+    width:50%;
+    padding-left:30px;
+    margin-left:0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    font-family: 'Droid Sans', sans-serif;
+    background-color: rgba(34,49,63,0.8);
+    color: #fff;
+    transition: 0.2s ease-out;
+}
+
+.joincode{
+    display:inline;
+}
+

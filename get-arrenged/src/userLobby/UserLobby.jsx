@@ -5,23 +5,37 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getUser} from './../userLobby/UserActions';
 import Schedule from '../Schedule/Schedule';
-
+import {Link} from 'react-router-dom';
+import Table from './../table-component/Table';
+import './UserLobby.css';
 
 class UserLobby extends Component {
   constructor(props){
     super(props);
 
+    this.state = {
+      sharedID: ''
+    };
+
+    this.handleUserInput = this.handleUserInput.bind(this);
     this.database = database;
-    this.createSchedule = this.createSchedule.bind(this);
+    
     this.db = this.database.ref().child('users');
   }
+
 
   componentWillMount(){
     this.props.getUser();
   }
 
-  createSchedule(){
-    console.log(this.props.user.user.uid);
+  handleUserInput(e){
+        this.setState({
+            sharedID: e.target.value
+        })
+    }
+
+  joinSchedule(e){
+    
   }
 
   render() {
@@ -29,30 +43,38 @@ class UserLobby extends Component {
       <div className="UserLobby">
         <div className="page">
             <div className="Table">
-              <Schedule 
-                  rows = {[ "morning", "evening", "night"]}
-                  cols = {[ "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]}
-              />
-                {/* <Table 
-                          rows = {[ "morning", "evening", "night"]}
-                          cols = {[ "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]}
-                          database={this.database}
-                          /> */}
                           <p>
                               You do not own or participate in any schedule.
                           </p>
+              <div className="joincode">
 
-                          <button className="btn btn-primary" onClick={() => this.createSchedule()}>
-                            Create Schedule
-                          </button>
+                    <Link to={{
+                      pathname:'/JoinSchedule',
+                      state:{
+                        sharedID: this.state.sharedID
+                      }
+                    }} className={"myAppButton"}>
+                        Join Schedule
+                    </Link>
+
+                    <input type="text"
+                      className="messageInput"
+                      placeholder="paste the code here"
+                      value= {this.state.sharedID}
+                      onChange={this.handleUserInput}
+                      />
+              
+                    </div>
+                    <br/><br/>
+                    <Link to={"/CreateSchedule"} className={"myAppButton"}>
+                        Create Schedule
+                    </Link>
+                  
+              </div>
             </div>
-            
-            
-            <Messanger database={this.database} user={this.props.user.user} />
         </div>
         
         
-      </div>
     );
     
   }

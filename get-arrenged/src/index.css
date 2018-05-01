@@ -15,3 +15,10 @@ body {
   width:70%;
 }
 
+code {
+  background-color: rgb(194, 194, 194);
+  border: 1px solid black;
+  padding: 6px;
+  color:red;
+
+}
