@@ -32,7 +32,13 @@ class CreateAccount extends Component{
             key= self.props.user.user.uid;
             let newUser = { };
             newUser[key]={
-                members: ''
+                members: ' ',
+                schedule: [
+                    " "," "," "," "," ",
+                    " "," "," "," "," ",
+                    " "," "," "," "," ",
+                    " "," "," "," "," "," "
+            ]
             }
            self.database.ref().child('users').update(newUser);
         }, 2000);

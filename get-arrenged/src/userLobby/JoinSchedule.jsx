@@ -46,8 +46,19 @@ class JoinSchedule extends Component {
                     if(user===key) flagContains=true;
                 }
                 if (!flagContains){
-                    this.database.update(newUser);
+                    //this.database.update(newUser);
+                    this.database = database.ref().child('/users/'+ this.state.ownerID +'/members/' + this.state.myID);
+                    this.database.once("value").then((snap) =>{
+                        database.ref().child('users/' + newProps.user.user.uid + '/codes').push().set(this.props.location.state.sharedID);
+                        if (snap.val() == null){
+                            this.database.set({
+                                cells:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                                nickname: this.state.nickname
+                            });
+                        }
+                    })
                 }
+                
             });
         }
     }

@@ -13,7 +13,7 @@ export function getUser() {
   }
 
 export function login(email, password){
-    return dispatch =>auth.signInWithEmailAndPassword(email,password).then((user)=>console.log(user));
+    return dispatch =>auth.signInWithEmailAndPassword(email,password);
 }
 
 export function logout(){

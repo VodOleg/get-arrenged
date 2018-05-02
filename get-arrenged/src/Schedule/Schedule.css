@@ -22,3 +22,8 @@
     min-width:"100px";
     min-height:"32px";
 }
+
+.refreshButton:hover{
+    color:blue;
+    transition:0.2;
+}

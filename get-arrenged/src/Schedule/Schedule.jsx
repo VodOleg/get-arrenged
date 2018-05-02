@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getUser} from './../userLobby/UserActions';
 import LoadingSpinner from '../userLobby/LoadingSpinner';
-import {Menu, Dropdown} from 'antd';
+import {Menu, Dropdown, Icon} from 'antd';
 //import {this.state.members} from './this.state.members.js';
 import './Schedule.css';
 import {database} from './../Firebase';
@@ -33,50 +33,58 @@ class Schedule extends Component {
         this.setState({
             counter: this.state.counter +1
         });
+        this.refreshSchedule(prop, false);
+    }
+
+    refreshSchedule(prop, calledManualy){
         var members = {};
-        if(this.state.counter===1){
+        if(this.state.counter===1 || calledManualy){
             this.database = database.ref().child('/users/'+ prop.ownerID +'/members');
             this.database.once("value").then((snap)=>{
-                    for (let worker in snap.val()){
-                        members[snap.val()[worker].nickname]=snap.val()[worker].cells.slice();
-                    }
+                //if there is a value, proceed
+                if(snap.val() !== " " ){
+                    members = this.createWorkers(snap.val());
+                    // for (let worker in snap.val()){
+                    //     members[snap.val()[worker].nickname]=snap.val()[worker].cells.slice();
+                    // }
                         this.setState({
                             members : members,
                             loading: false,
                             owner: prop.ownerID===this.props.user.user.uid
                         });
-                        this.datab = database.ref().child('/users/'+prop.ownerID+'/members')
-                        .once("value").then((snap)=>{
-                            if (snap.val()){
-                                this.setState({
-                                    cells: snap.val()["newCells"].slice(),
-                                    loading: false
-                                });
-                            } else {
-                                let newOwner ={};
-                                newOwner[prop.ownerID] = {"schedule": [" "," "," "," ",
-                                " "," "," "," ",
-                                " "," "," "," ",
-                                " "," "," "," ",
-                                " "," "," "," "," "]};
-                                this.datab = database.ref().child('/users'+prop.ownerID+"/members").update({
-                                    newOwner
-                                });
-                            }
-                            })
+                        
+                    } else {
+                        //database returned null, render blank schedule
+                        this.setState({loading:false});
+                    }
                     }).catch((err)=>{
                         console.log(err);
                     });
+                    this.updateSchedule();
+        } 
+    }
+
+    createWorkers(dataSnapshot){
+        var members = {};
+        for (let worker in dataSnapshot){
+            members[dataSnapshot[worker].nickname]=dataSnapshot[worker].cells.slice();
         }
+        return members;
+    }
+
+    updateSchedule(){
+        this.datab.ref().child('/users/'+this.props.ownerID).child('schedule').on("value" ,(snap)=>{
+            if (snap.val() != null){
+                this.setState({cells:snap.val()})
+            }
+        });
     }
 
     extractNick(email){
-        let kj = "";
         let i =0;
         while(email[i] !== '@' && i<email.length){
             i++;
         }
-        kj = email.substring(0,i);
         return email.substring(0,i);
     }
     
@@ -103,7 +111,7 @@ class Schedule extends Component {
         
         let previousShift = ((day-7)>=0) ? (day-7) : (day+13);
         let isAvailable =  (!(this.state.members[worker][day]) && (this.state.cells[previousShift] !== this.extractNick(worker)));
-        console.log("worker is : "+worker+" checking for day "+day+"returning "+ !isAvailable);
+       // console.log("worker is : "+worker+" checking for day "+day+"returning "+ !isAvailable);
         return isAvailable;
     }
 
@@ -133,12 +141,17 @@ class Schedule extends Component {
 
 
     changeState(id, worker){
-        let newCells = this.state.cells.slice();
-        newCells[id]= this.extractNick(worker);
-        this.setState({
-            cells: newCells
-        });
-        this.datab=database.ref().child('/users/'+this.props.ownerID+'/schedule').update({newCells});
+        if(this.state.owner){
+            let schedule = this.state.cells.slice();
+            schedule[id]= this.extractNick(worker);
+            this.setState({
+                cells: schedule
+            });
+            this.datab.ref().child('/users/'+this.props.ownerID).update({schedule});
+                
+        } else {
+            console.log("you are not the owner of this schedule :(");
+        }
 
     };
 
@@ -191,7 +204,6 @@ class Schedule extends Component {
       return (
           
         <div className={"Schedule"}> 
-            <button onClick={() => {console.log(this.state.cells)}}> test </button>
             {this.state.loading ? (
                 <div className="loading">
                     <LoadingSpinner />
@@ -200,6 +212,7 @@ class Schedule extends Component {
 
              this.renderSchedule(this.props.cols.length,this.props.rows.length)}
              
+            <Icon className="refreshButton" style={{color:"white", fontSize:20}}  type="retweet" onClick={() => {this.refreshSchedule(this.props, true)}}>  </Icon>
         </div>
       );
     }

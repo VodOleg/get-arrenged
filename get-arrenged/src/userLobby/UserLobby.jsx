@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import Messanger from './../Messanger/Messanger';
 import {database} from './../Firebase';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getUser} from './../userLobby/UserActions';
-import Schedule from '../Schedule/Schedule';
 import {Link} from 'react-router-dom';
-import Table from './../table-component/Table';
 import './UserLobby.css';
 
 class UserLobby extends Component {
@@ -14,7 +11,8 @@ class UserLobby extends Component {
     super(props);
 
     this.state = {
-      sharedID: ''
+      sharedID: '',
+      yourcodes: []
     };
 
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -28,6 +26,23 @@ class UserLobby extends Component {
     this.props.getUser();
   }
 
+  componentWillReceiveProps(props){
+    if (props != null){
+      this.database.ref().child('users/'+props.user.user.uid+'/codes').once("value").then((snap) => {
+        if(snap.val() != null){
+          var newCodes = [];
+          for(let code in snap.val()){
+            newCodes.push(snap.val()[code]);
+          }
+          this.setState({
+            yourcodes: newCodes
+          })
+        }else{
+          console.log("snap is null");}
+      })
+    }
+  }
+
   handleUserInput(e){
         this.setState({
             sharedID: e.target.value
@@ -39,6 +54,12 @@ class UserLobby extends Component {
   }
 
   render() {
+    let codes=[];
+    for (let i in this.state.yourcodes){
+      codes.push(
+        <li style={{marginBottom:"20px"}} key={i}><code>{this.state.yourcodes[i]}</code></li>
+      )
+    };
     return (
       <div className="UserLobby">
         <div className="page">
@@ -58,7 +79,7 @@ class UserLobby extends Component {
                     </Link>
 
                     <input type="text"
-                      className="messageInput"
+                      className="codeInput"
                       placeholder="paste the code here"
                       value= {this.state.sharedID}
                       onChange={this.handleUserInput}
@@ -70,6 +91,12 @@ class UserLobby extends Component {
                         Create Schedule
                     </Link>
                   
+              </div>
+              <div className="yourcodes">
+               <div style={{marginBottom:"5px"}}>recent codes:</div>
+                <ul>
+                  {codes}
+                </ul>
               </div>
             </div>
         </div>

@@ -4,8 +4,9 @@ import Clock from './../Clock.js';
 import { NavLink } from 'react-router-dom';
 import {getUser, logout, deleteAccount} from './../userLobby/UserActions';
 import PropTypes from 'prop-types';
-import { Layout, Menu, Breadcrumb, Icon, Button } from 'antd';
+import { Layout, Menu, Icon, Button } from 'antd';
 import './Nav.css';
+import UserStatus from './../userLobby/userStatus';
 const { Sider } = Layout;
 
 
@@ -37,6 +38,9 @@ class Nav extends Component {
               <div className="logo antMenu" />
         <div className="clock">
            <Clock />
+        </div>
+        <div className="userstatus">
+          <UserStatus user={!this.props.user.user ? 'Guest' : this.props.user.user.email }/>
         </div>
               <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
                 <Menu.Item key="1">

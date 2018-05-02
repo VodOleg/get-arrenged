@@ -12,7 +12,7 @@ body {
 .page{
   position:fixed;
   margin-left:25%;
-  width:70%;
+  width:70vw;
 }
 
 code {

@@ -38,27 +38,31 @@ class Table extends Component {
         if(this.state.counter===1){
             this.database = database.ref().child('/users/'+ prop.ownerID +'/members/' + prop.myID);
             this.database.once("value").then((snap)=>{
-                        this.setState({
-                            cells: snap.val().cells.slice(),
-                            loading: false
-                        });
-                       this.updateCells();
-                   
-                    }).catch((err)=>{
+                if (snap.val() != null ){
+                    this.setState({
+                        cells: snap.val().cells.slice(),
+                        loading: false
+                    });
+                    this.updateCells();
+                } else {
+                    //probably the database havent updated yet, try again in 1sec
+                    setTimeout(() => {
+                        this.database.once("value").then((snap)=>{
+                            if(snap.val() != null){
+                                this.setState({
+                                    cells:snap.val().cells.slice(),
+                                    loading: false
+                                })
+                            }
+                        })
+                    }, 1000);
+                }
+            
+            }).catch((err)=>{
                         console.log(err);
-                        console.log("caught error, updating...");
-                        this.database.update({
-                            cells:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                            nickname: prop.nickname
-                        });
-                        this.setState({
-                            cells:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                            loading: false
-                        });
                     });
         }
-    }
-    
+}
     //on component init, bring data from db and update table
     // componentWillMount(){
     //     this.database.once("value").then((snap)=>{
@@ -85,7 +89,7 @@ class Table extends Component {
     handleCell(key){
         var newCell = this.state.cells;
         newCell[key] = !newCell[key];
-        this.database.set({
+        this.database.update({
             cells: newCell
         });
     }
