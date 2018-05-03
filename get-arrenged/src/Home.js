@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Nav from './nav-bar/Nav';
+import App from './App';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {getUser} from './userLobby/UserActions';
@@ -13,8 +14,9 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <Nav />
-        <div className="page">
+        <App />
+
+        {/* <div className="page">
           <div className="box" style={{"textAlign":"center",marginTop:"15%"}}>
             <h1>Create and collaborate weekly schedules</h1>
             <h2>Comming soon</h2>
@@ -22,7 +24,7 @@ class Home extends Component {
               Feel free to login and test the app!
             </h6>
           </div>
-        </div>
+        </div> */}
       </div>
     );
     

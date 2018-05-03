@@ -3,7 +3,6 @@ import Nav from './../nav-bar/Nav';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {getUser} from './../userLobby/UserActions';
-import Messanger from './../Messanger/Messanger';
 import './UserLobby.css';
 
 class CreateSchedule extends Component {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {BrowserRouter, Route ,Switch} from 'react-router-dom';
-import Home from './Home.js';
 import App from './App.js';
 import Login from './Login/Login';
 import CreateAccount from './Login/CreateAccount.js';
@@ -19,7 +18,7 @@ class Routs extends Component{
                     <Route path={'/CreateSchedule'} exact component={CreateSchedule} />
                     <Route path={"/Login"} exact component={Login} />
                     <Route path={"/App"} exact component={App} />
-                    <Route path={"/"} exact component={Home} />
+                    <Route path={"/"} exact component={App} />
                 </Switch>
             </BrowserRouter>
         )

@@ -47,10 +47,7 @@ class Nav extends Component {
                   <Icon type="home" />
                   <span><NavLink style={styles} to="/">Home</NavLink></span>
                 </Menu.Item>
-                <Menu.Item key="2">
-                  <Icon type="laptop" />
-                  <span><NavLink style={styles} to="/App">Go to App</NavLink></span>
-                </Menu.Item>
+                
                 <Menu.Item key="3">
                   <Icon type="lock" />
                   <span>

@@ -37,8 +37,7 @@ class UserLobby extends Component {
           this.setState({
             yourcodes: newCodes
           })
-        }else{
-          console.log("snap is null");}
+        }else{}
       })
     }
   }
@@ -64,9 +63,6 @@ class UserLobby extends Component {
       <div className="UserLobby">
         <div className="page">
             <div className="Table">
-                          <p>
-                              You do not own or participate in any schedule.
-                          </p>
               <div className="joincode">
 
                     <Link to={{

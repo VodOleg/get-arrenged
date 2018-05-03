@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {getUser} from './../userLobby/UserActions';
 import Schedule from './../Schedule/Schedule';
-import Messanger from './../Messanger/Messanger';
+//import Messanger from './../Messanger/Messanger';
 import Table from '../table-component/Table';
 import {database} from './../Firebase';
+import {Button, Icon} from 'antd';
 
 class JoinSchedule extends Component {
 
@@ -100,13 +101,15 @@ class JoinSchedule extends Component {
                     </div>
                 </div>
             </div>
-            <div>
+            <Button onClick={()=>{this.props.history.push('/App')}}><Icon type="caret-left"></Icon>
+                Back</Button>
+            {/* <div>
                 <div>
                     <div>
                         <Messanger user={this.props.user.user} />
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
       </div>
     );

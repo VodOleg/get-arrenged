@@ -4,8 +4,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getUser} from './../userLobby/UserActions';
 import LoadingSpinner from '../userLobby/LoadingSpinner';
-import {Menu, Dropdown, Icon} from 'antd';
-//import {this.state.members} from './this.state.members.js';
+import {Menu, Dropdown, Icon,Button} from 'antd';
 import './Schedule.css';
 import {database} from './../Firebase';
 
@@ -107,10 +106,9 @@ class Schedule extends Component {
 
     workerIsAvailble(worker, day){
         if(this.state.members[worker]===undefined) {return true;}
-        if(day===0) {return this.state.members[worker][day]};
-        
+        if(day===0) {return !this.state.members[worker][day]};
         let previousShift = ((day-7)>=0) ? (day-7) : (day+13);
-        let isAvailable =  (!(this.state.members[worker][day]) && (this.state.cells[previousShift] !== this.extractNick(worker)));
+        let isAvailable =  (!(this.state.members[worker][day]) && (this.state.cells[previousShift] !== worker));
        // console.log("worker is : "+worker+" checking for day "+day+"returning "+ !isAvailable);
         return isAvailable;
     }
@@ -143,7 +141,7 @@ class Schedule extends Component {
     changeState(id, worker){
         if(this.state.owner){
             let schedule = this.state.cells.slice();
-            schedule[id]= this.extractNick(worker);
+            schedule[id]= worker;
             this.setState({
                 cells: schedule
             });
@@ -211,8 +209,11 @@ class Schedule extends Component {
                 ) :
 
              this.renderSchedule(this.props.cols.length,this.props.rows.length)}
-             
-            <Icon className="refreshButton" style={{color:"white", fontSize:20}}  type="retweet" onClick={() => {this.refreshSchedule(this.props, true)}}>  </Icon>
+            
+                
+            <Button style={{marginTop:"10px"}} onClick={()=>{this.refreshSchedule(this.props, true)}}><Icon type="retweet"></Icon>
+                Refresh</Button>
+                
         </div>
       );
     }
