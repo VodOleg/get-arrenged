@@ -74,6 +74,7 @@ class JoinSchedule extends Component {
       <div >
         <Nav />
         <div className="page">
+        <div className="warning">This is an early POC version</div>
             <div>
                 <div className={"scheduleContainer"} >
                     <div>

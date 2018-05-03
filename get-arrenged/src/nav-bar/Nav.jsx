@@ -14,7 +14,7 @@ class Nav extends Component {
   constructor(props){
     super(props);
     this.state={
-      collapsed: false
+      collapsed: (window.innerWidth < 775 )
     }
   }
 
@@ -24,13 +24,20 @@ class Nav extends Component {
     })
   }
 
+  extractNick(email){
+    let i =0;
+    while(email[i] !== '@' && i<email.length){
+        i++;
+    }
+    return email.substring(0,i);
+}
 
   render() {
     let styles={cursor:"default", textDecoration:"none", minWidth:"100px",height:"32px", border:"1px solid transperent",textAlign:"center", borderRadius:"4px", background:"white", padding:"6px 15px"};
     return (
        
         <Sider
-          style={{flex:"none", position:"absolute", height:"100%", cursor:"default !important",textDecoration:"none"}}
+          style={{zIndex:"100",flex:"none", position:"absolute", height:"100%", cursor:"default !important",textDecoration:"none"}}
           collapsible
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
@@ -40,14 +47,13 @@ class Nav extends Component {
            <Clock />
         </div>
         <div className="userstatus">
-          <UserStatus user={!this.props.user.user ? 'Guest' : this.props.user.user.email }/>
+          <UserStatus user={!this.props.user.user ? 'Guest' : this.extractNick(this.props.user.user.email) }/>
         </div>
               <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-                <Menu.Item key="1">
+                <Menu.Item key="1" >
                   <Icon type="home" />
-                  <span><NavLink style={styles} to="/">Home</NavLink></span>
+                  <span> <NavLink style={styles} to="/">Home</NavLink></span>
                 </Menu.Item>
-                
                 <Menu.Item key="3">
                   <Icon type="lock" />
                   <span>

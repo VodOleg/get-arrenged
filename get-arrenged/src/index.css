@@ -22,3 +22,74 @@ code {
   color:red;
 
 }
+
+.warning{
+  border:1px dashed red;
+  padding:5px;
+  text-align: center;
+  width:190px;
+  margin:3vw 0vw 0vw 5vw;
+  color:darkgoldenrod;
+  animation: blinker 1s linear infinite;
+}
+@keyframes blinker {
+  50% { color: darkgoldenrod;}
+  50% {color:white;}
+}
+
+@media screen and (max-width:1020px){
+  .Table {
+    margin-left:10%;
+    margin-top:30%;
+  }
+  .page{
+    position:fixed;
+    width:75vw;
+    margin-left:26% !important;
+    z-index: 5;
+  }
+  .schCell{
+    min-width:13% !important;
+    max-width:13% !important;
+    font-size:xx-small !important;
+    padding:1px !important;
+    max-height: 32px !important;
+    min-height: 32px !important;
+    text-align: center !important;
+
+  }
+  .colHead{
+    margin:0 5% 0 5%;
+    font-size:xx-small;
+  }
+  .rowHead{
+    display:none important!;
+  }
+  .Schedule{
+    margin-left: 3%;
+  }
+
+  .tableCell{
+    padding:10px 12px 0px 10px !important;
+    margin:0px 3px;
+
+  }
+  .TableRow{
+    margin-top: 14px;
+  }
+  .colHeadTable{
+    margin:0 9px;
+    font-size:xx-small;
+  }
+  .codeInput{
+    width:50vw;
+  }
+  
+.codeslist{
+  margin-left:-13vw;
+}
+.col-sm-10{
+  z-index: 5;
+}
+
+}

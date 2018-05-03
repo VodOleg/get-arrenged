@@ -13,31 +13,26 @@ class Clock extends Component {
   getDate(){
       var today = new Date();
       var dd = today.getDate();
-      var mm = today.getMonth()+1; //January is 0!
-      var yyyy = today.getFullYear();
-
-      if(dd<10) {
-          dd = '0'+dd
-      } 
-
-      if(mm<10) {
-          mm = '0'+mm
-      } 
-
-      today = dd + '/' + mm + '/' + yyyy;
+      var mm = today.getMonth(); //January is 0!
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      
+      today = dd + ' ' + months[mm];
       return(today);
   }
 
   componentDidMount(){
     this.timerID = setInterval(
       () => this.tick(),
-      1000
+      1000*60
     );
   }
 
   componentWillUnmount(){
     clearInterval(this.timerID);
   }
+
+
+ 
 
   tick() {
     this.setState({
@@ -48,8 +43,8 @@ class Clock extends Component {
   render() {
     return (
       <div>
-        <h2>{this.day}</h2>
-        <h4>{this.state.date.toLocaleTimeString()}</h4>
+        <h4>{this.day}</h4>
+        <h6>{this.state.date.toLocaleTimeString(new Date(),{hour12:false}).substring(0,5)}</h6>
       </div>
     );
     

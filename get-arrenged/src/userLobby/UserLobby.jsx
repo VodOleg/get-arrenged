@@ -62,6 +62,7 @@ class UserLobby extends Component {
     return (
       <div className="UserLobby">
         <div className="page">
+          <div className="warning">This is an early POC version</div>
             <div className="Table">
               <div className="joincode">
 
@@ -73,7 +74,7 @@ class UserLobby extends Component {
                     }} className={"myAppButton"}>
                         Join Schedule
                     </Link>
-
+                      <br/>
                     <input type="text"
                       className="codeInput"
                       placeholder="paste the code here"
@@ -82,19 +83,20 @@ class UserLobby extends Component {
                       />
               
                     </div>
-                    <br/><br/>
-                    <Link to={"/CreateSchedule"} className={"myAppButton"}>
-                        Create Schedule
-                    </Link>
-                  
-              </div>
-              <div className="yourcodes">
+                    <br/>
+                    <div className="yourcodes">
                <div style={{marginBottom:"5px"}}>recent codes:</div>
-                <ul>
+                <ul className="codeslist">
                   {codes}
                 </ul>
               </div>
+            <Link to={"/CreateSchedule"} className={"myAppButton"}>
+                        Create Schedule
+                    </Link>
             </div>
+                  
+              </div>
+              
         </div>
         
         

@@ -18,16 +18,17 @@ class App extends Component {
     const loginbutton = <Link to ="/Login">Login/Register</Link>;
     return (
       <div className="App">
+
           <Nav />
           { this.props.user.user ? 
           (<UserLobby />) 
           :
           (
-            <SimpleBox 
-            title={"Authenticate please"}
-            body={"Before getting arranged you must authenticate :)"}
-            footer={loginbutton}
-             />
+              <SimpleBox className="Table"
+              title={"Authenticate please"}
+              body={"Before getting arranged you must authenticate :)"}
+              footer={loginbutton}
+              />
           )
           }
       </div>
